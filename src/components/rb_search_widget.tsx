@@ -6,8 +6,8 @@ const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2
 });
 
-export function RBSearchWidget(props) {
-    const {state, city, zipcode, newTab} = props;
+export function RBSearchWidget(props: IRBSearchWidget) {
+    const {state, city, zipCode, newTab} = props;
     const [listings, setListings] = useState();
     const [commissions, setCommissions] = useState();
     const [showStats, setShowStats] = useState(false);
@@ -47,4 +47,17 @@ export function RBSearchWidget(props) {
             </div>
         </div>
     )
+}
+
+interface IRBSearchWidget {
+    readonly state?: string;
+    readonly city?: string;
+    readonly zipCode?: number;
+    readonly newTab: boolean;
+    readonly streetAddress?: string;
+    readonly unitNumber?: number;
+    readonly minRent?: number;
+    readonly maxRent?: number;
+    readonly minBedrooms?: number;
+    readonly minBathroom?: number;
 }
