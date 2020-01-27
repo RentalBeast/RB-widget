@@ -41,8 +41,9 @@ module.exports = {
                 use: [
                     {
                         loader: 'awesome-typescript-loader'
-                    }
+                    }, 'source-map-loader'
                 ],
+                enforce: "pre",
                 exclude: /node_modules/,
             },
             {
