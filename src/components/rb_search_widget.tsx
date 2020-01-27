@@ -1,28 +1,43 @@
 import React, {useState} from "react";
+import axios from "axios";
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2
 });
+const listingStats = async(filters) => {
+    var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
+    const authorizedParams = {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        params: filters
+    };
+    return axios.get(url, authorizedParams).then(res => {
+        return res.data.data;
+    }).catch(e => console.error(e));
+};
 
 export function RBSearchWidget(props: IRBSearchWidget) {
-    const {state, city, zipCode, newTab} = props;
+    const {settings, newTab} = props;
     const [listings, setListings] = useState();
     const [commissions, setCommissions] = useState();
     const [showStats, setShowStats] = useState(false);
-    const [redirect, setRedirect] = useState(false);
 
     const renderRedirect = () => {
         const url = "https://www.rentalbeast.com/";
         newTab ? window.open(url, "_blank") : location.replace(url)
     };
 
-    const getShowStats = async (values: any) => {
-        const listings = 25;
-        const commissions = 1000;
+    const getShowStats = async () => {
+        const response = await listingStats(settings);
+        let listings = response.total_count;
+        const commissions = response.total_commission;
         setListings(listings);
         setCommissions(commissions);
+        setShowStats(true);
+
     };
 
     return (
@@ -30,8 +45,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
             <form>
                 <button onClick={(e) => {
                     e.preventDefault();
-                    getShowStats(props);
-                    setShowStats(true);
+                    getShowStats();
                 }}>Save Changes
                 </button>
             </form>
@@ -50,14 +64,17 @@ export function RBSearchWidget(props: IRBSearchWidget) {
 }
 
 interface IRBSearchWidget {
-    readonly state?: string;
-    readonly city?: string;
-    readonly zipCode?: number;
+    settings: {
+        readonly state?: string;
+        readonly city?: string;
+        readonly zipCode?: number;
+        readonly streetAddress?: string;
+        readonly unitNumber?: number;
+        readonly minRent?: number;
+        readonly maxRent?: number;
+        readonly minBedrooms?: number;
+        readonly minBathroom?: number;
+    };
     readonly newTab: boolean;
-    readonly streetAddress?: string;
-    readonly unitNumber?: number;
-    readonly minRent?: number;
-    readonly maxRent?: number;
-    readonly minBedrooms?: number;
-    readonly minBathroom?: number;
+
 }
