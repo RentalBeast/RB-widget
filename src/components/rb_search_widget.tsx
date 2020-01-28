@@ -14,9 +14,9 @@ export function RBSearchWidget(props: IRBSearchWidget) {
     const [showStats, setShowStats] = useState(false);
     const [loading, setLoading] = useState();
 
-    const renderRedirect = () => {
-        const url = "https://www.rentalbeast.com/";
-        newTab ? window.open(url, "_blank") : location.replace(url)
+    const handleSubmit =(e) => {
+        e.preventDefault();
+        console.log('Redirect to Broker Portal')
     };
 
     const listingStats = async(filters) => {
@@ -45,25 +45,34 @@ export function RBSearchWidget(props: IRBSearchWidget) {
 
     return (
         <div className="container main-settings">
-            <form>
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    getShowStats();
-                }}>Search
-                </button>
-            </form>
-            <div>
-                {/*Loading Data can be replaced with spinner*/}
-                {
-                    loading ? 'Loading Data...' :
+            <button onClick={(e) => {
+                e.preventDefault();
+                getShowStats();
+            }}>Search
+            </button>
+            {
+                loading ? 'Loading Data...' :
                     showStats &&
-                    <button onClick={renderRedirect}>
-                        {listings} Listings<br/>
-                        {formatter.format(commissions)} Commissions<br/>
-                        Search Rental Beast >
-                    </button>
-                }
-            </div>
+                    <form onSubmit={handleSubmit}>
+                        <fieldset>
+                            <input type="hidden" name="state" value={settings.state}/>
+                            <input type="hidden" name="city" value={settings.city}/>
+                            <input type="hidden" name="zip_codes" value={settings.zip_codes}/>
+                            <input type="hidden" name="gen_neighborhood" value={settings.gen_neighborhood}/>
+                            <input type="hidden" name="unitNumber" value={settings.unitNumber}/>
+                            <input type="hidden" name="min_price" value={settings.min_price}/>
+                            <input type="hidden" name="max_price" value={settings.max_price}/>
+                            <input type="hidden" name="min_bedrooms" value={settings.min_bedrooms}/>
+                            <input type="hidden" name="min_bathrooms" value={settings.min_bathrooms}/>
+                            <input type="hidden" name="statuses" value="Active"/>
+                            <button type="submit">
+                                {listings} Listings<br/>
+                                {formatter.format(commissions)} Commissions<br/>
+                                Search Rental Beast >
+                            </button>
+                        </fieldset>
+                    </form>
+            }
         </div>
     )
 }
@@ -72,14 +81,15 @@ interface IRBSearchWidget {
     settings: {
         readonly state?: string;
         readonly city?: string;
-        readonly zipCode?: number;
-        readonly streetAddress?: string;
+        readonly zip_codes?: number;
+        readonly gen_neighborhood?: string;
         readonly unitNumber?: number;
-        readonly minRent?: number;
-        readonly maxRent?: number;
-        readonly minBedrooms?: number;
-        readonly minBathroom?: number;
+        readonly min_price?: number;
+        readonly max_price?: number;
+        readonly min_bedrooms?: number;
+        readonly min_bathrooms?: number;
     };
     readonly newTab: boolean;
-
 }
+
+// method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search"
