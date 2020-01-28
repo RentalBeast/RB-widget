@@ -14,7 +14,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
     const [showStats, setShowStats] = useState(false);
     const [loading, setLoading] = useState();
 
-    const listingStats = async(filters) => {
+    const listingStats = async(filters: IRBSearchWidget["settings"]) => {
         var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
         const authorizedParams = {
             headers: {
