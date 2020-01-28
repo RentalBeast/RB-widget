@@ -61,6 +61,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
                             <input type="hidden" name="min_bathrooms" value={settings.min_bathrooms}/>
                             <input type="hidden" name="statuses" value="Active"/>
                             <button type="submit">
+                                {/*<img src="src/assets/rb_logo.png" />*/}
                                 {listings} Listings<br/>
                                 {formatter.format(commissions)} Commissions<br/>
                                 Search Rental Beast >
