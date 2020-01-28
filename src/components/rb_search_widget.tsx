@@ -14,11 +14,6 @@ export function RBSearchWidget(props: IRBSearchWidget) {
     const [showStats, setShowStats] = useState(false);
     const [loading, setLoading] = useState();
 
-    const handleSubmit =(e) => {
-        e.preventDefault();
-        console.log('Redirect to Broker Portal')
-    };
-
     const listingStats = async(filters) => {
         var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
         const authorizedParams = {
@@ -53,7 +48,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
             {
                 loading ? 'Loading Data...' :
                     showStats &&
-                    <form onSubmit={handleSubmit}>
+                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search">
                         <fieldset>
                             <input type="hidden" name="state" value={settings.state}/>
                             <input type="hidden" name="city" value={settings.city}/>
@@ -91,5 +86,3 @@ interface IRBSearchWidget {
     };
     readonly newTab: boolean;
 }
-
-// method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search"
