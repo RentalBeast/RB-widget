@@ -65,5 +65,6 @@ module.exports = {
         alias: {
             "~": path.resolve(__dirname, 'node_modules/')
         }
-    }
+    },
+    devtool: "source-map"
 }
