@@ -6,59 +6,69 @@ const formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD',
     minimumFractionDigits: 2
 });
-const listingStats = async(filters) => {
-    var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
-    const authorizedParams = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        params: filters
-    };
-    return axios.get(url, authorizedParams).then(res => {
-        return res.data.data;
-    }).catch(e => console.error(e));
-};
 
 export function RBSearchWidget(props: IRBSearchWidget) {
     const {settings, newTab} = props;
     const [listings, setListings] = useState();
     const [commissions, setCommissions] = useState();
     const [showStats, setShowStats] = useState(false);
+    const [loading, setLoading] = useState();
 
-    const renderRedirect = () => {
-        const url = "https://www.rentalbeast.com/";
-        newTab ? window.open(url, "_blank") : location.replace(url)
+    const listingStats = async(filters: IRBSearchWidget["settings"]) => {
+        var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
+        const authorizedParams = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: filters
+        };
+        return axios.get(url, authorizedParams).then(res => {
+            setLoading(false);
+            return res.data.data;
+        }).catch(e => console.error(e));
     };
 
     const getShowStats = async () => {
+        setLoading(true);
         const response = await listingStats(settings);
         let listings = response.total_count;
         const commissions = response.total_commission;
         setListings(listings);
         setCommissions(commissions);
         setShowStats(true);
-
     };
 
     return (
         <div className="container main-settings">
-            <form>
-                <button onClick={(e) => {
-                    e.preventDefault();
-                    getShowStats();
-                }}>Save Changes
-                </button>
-            </form>
-            <div>
-                {
+            <button onClick={(e) => {
+                e.preventDefault();
+                getShowStats();
+            }}>Search
+            </button>
+            {
+                loading ? 'Loading Data...' :
                     showStats &&
-                    <button onClick={renderRedirect}>
-                        {listings} Listings<br/>
-                        {formatter.format(commissions)} Commissions<br/>
-                        Search Rental Beast >
-                    </button>
-                }
-            </div>
+                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search">
+                        <fieldset>
+                            <input type="hidden" name="state" value={settings.state}/>
+                            <input type="hidden" name="city" value={settings.city}/>
+                            <input type="hidden" name="zip_codes" value={settings.zip_codes}/>
+                            <input type="hidden" name="gen_neighborhood" value={settings.gen_neighborhood}/>
+                            <input type="hidden" name="unitNumber" value={settings.unitNumber}/>
+                            <input type="hidden" name="min_price" value={settings.min_price}/>
+                            <input type="hidden" name="max_price" value={settings.max_price}/>
+                            <input type="hidden" name="min_bedrooms" value={settings.min_bedrooms}/>
+                            <input type="hidden" name="min_bathrooms" value={settings.min_bathrooms}/>
+                            <input type="hidden" name="statuses" value="Active"/>
+                            <button type="submit">
+                                {/*<img src="src/assets/rb_logo.png" />*/}
+                                {listings} Listings<br/>
+                                {formatter.format(commissions)} Commissions<br/>
+                                Search Rental Beast >
+                            </button>
+                        </fieldset>
+                    </form>
+            }
         </div>
     )
 }
@@ -67,14 +77,13 @@ interface IRBSearchWidget {
     settings: {
         readonly state?: string;
         readonly city?: string;
-        readonly zipCode?: number;
-        readonly streetAddress?: string;
+        readonly zip_codes?: number;
+        readonly gen_neighborhood?: string;
         readonly unitNumber?: number;
-        readonly minRent?: number;
-        readonly maxRent?: number;
-        readonly minBedrooms?: number;
-        readonly minBathroom?: number;
+        readonly min_price?: number;
+        readonly max_price?: number;
+        readonly min_bedrooms?: number;
+        readonly min_bathrooms?: number;
     };
     readonly newTab: boolean;
-
 }
