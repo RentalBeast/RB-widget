@@ -6,38 +6,41 @@ const formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD',
     minimumFractionDigits: 2
 });
-const listingStats = async(filters) => {
-    var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
-    const authorizedParams = {
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        params: filters
-    };
-    return axios.get(url, authorizedParams).then(res => {
-        return res.data.data;
-    }).catch(e => console.error(e));
-};
 
 export function RBSearchWidget(props: IRBSearchWidget) {
     const {settings, newTab} = props;
     const [listings, setListings] = useState();
     const [commissions, setCommissions] = useState();
     const [showStats, setShowStats] = useState(false);
+    const [loading, setLoading] = useState();
 
     const renderRedirect = () => {
         const url = "https://www.rentalbeast.com/";
         newTab ? window.open(url, "_blank") : location.replace(url)
     };
 
+    const listingStats = async(filters) => {
+        var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
+        const authorizedParams = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: filters
+        };
+        return axios.get(url, authorizedParams).then(res => {
+            setLoading(false);
+            return res.data.data;
+        }).catch(e => console.error(e));
+    };
+
     const getShowStats = async () => {
+        setLoading(true);
         const response = await listingStats(settings);
         let listings = response.total_count;
         const commissions = response.total_commission;
         setListings(listings);
         setCommissions(commissions);
         setShowStats(true);
-
     };
 
     return (
@@ -46,11 +49,13 @@ export function RBSearchWidget(props: IRBSearchWidget) {
                 <button onClick={(e) => {
                     e.preventDefault();
                     getShowStats();
-                }}>Save Changes
+                }}>Search
                 </button>
             </form>
             <div>
+                {/*Loading Data can be replaced with spinner*/}
                 {
+                    loading ? 'Loading Data...' :
                     showStats &&
                     <button onClick={renderRedirect}>
                         {listings} Listings<br/>
