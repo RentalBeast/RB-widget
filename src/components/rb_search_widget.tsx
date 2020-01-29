@@ -49,7 +49,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
             {
                 loading ? 'Loading Data...' :
                     showStats &&
-                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search" className={styles.form}>
+                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search">
                         <fieldset>
                             <input type="hidden" name="state" value={settings.state}/>
                             <input type="hidden" name="city" value={settings.city}/>
@@ -62,14 +62,14 @@ export function RBSearchWidget(props: IRBSearchWidget) {
                             <input type="hidden" name="min_bathrooms" value={settings.min_bathrooms}/>
                             <input type="hidden" name="statuses" value="Active"/>
                             <div className={styles.gridContainer} type="submit">
-                                <div className={styles.item1}>
+                                <div className={styles.rbLogo}>
                                     <img src="https://cdn.rentalbeast.com/default/rb-logo.png" />
                                 </div>
                                 <div>
                                     <span className={styles.boldText}>{listings} </span>
                                      Listings<br/>
                                 </div>
-                                <div className="item3">
+                                <div>
                                     <span className={styles.boldText}>{formatter.format(commissions)} </span>
                                      Commissions<br/>
                                 </div>
