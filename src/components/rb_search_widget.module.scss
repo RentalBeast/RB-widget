@@ -8,6 +8,9 @@ fieldset {
   border: 1px solid rgba(193, 193, 193, 0.95);
   border-radius: 5px;
   background-color: #F6F8FA;
+  width: max-content;
+  height: fit-content;
+  max-width: 250px;
 }
 
 .boldText {
@@ -27,8 +30,8 @@ fieldset {
   justify-content: center;
   align-items: center;
   img {
-    height: 50px;
-    width: 50px;
+    height: 70px;
+    width: 60px;
   }
 }
 

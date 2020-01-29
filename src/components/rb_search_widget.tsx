@@ -14,6 +14,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
     const [commissions, setCommissions] = useState();
     const [showStats, setShowStats] = useState(false);
     const [loading, setLoading] = useState();
+    let target;
 
     const listingStats = async(filters: IRBSearchWidget["settings"]) => {
         var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
@@ -39,6 +40,10 @@ export function RBSearchWidget(props: IRBSearchWidget) {
         setShowStats(true);
     };
 
+    if (newTab) {
+        target = "_blank"
+    }
+
     return (
         <div className={styles.mainSettings}>
             <button onClick={(e) => {
@@ -49,7 +54,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
             {
                 loading ? 'Loading Data...' :
                     showStats &&
-                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search">
+                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search" target = {target}>
                         <fieldset>
                             <input type="hidden" name="state" value={settings.state}/>
                             <input type="hidden" name="city" value={settings.city}/>
