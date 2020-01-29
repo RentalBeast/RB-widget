@@ -5,7 +5,7 @@ import styles from "./rb_search_widget.module.scss";
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: 2
+    minimumFractionDigits: 0
 });
 
 export function RBSearchWidget(props: IRBSearchWidget) {
@@ -70,7 +70,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
                                      Listings<br/>
                                 </div>
                                 <div>
-                                    <span className={styles.boldText}>{formatter.format(commissions)} </span>
+                                    <span className={styles.boldText}>{formatter.format((commissions.toFixed()))} </span>
                                      Commissions<br/>
                                 </div>
                                 <div>
