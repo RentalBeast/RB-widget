@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
+import styles from "./rb_search_widget.module.scss";
 
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -39,7 +40,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
     };
 
     return (
-        <div className="container main-settings">
+        <div className={styles.mainSettings}>
             <button onClick={(e) => {
                 e.preventDefault();
                 getShowStats();
