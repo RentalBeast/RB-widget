@@ -1,3 +1,47 @@
 .mainSettings {
-  background-color: white;
+  width: 150px;
+  height: 50px;
+  max-height: 150px;
+  max-width: 50px;
+}
+fieldset {
+  border: 1px solid rgba(193, 193, 193, 0.95);
+  border-radius: 5px;
+  background-color: #F6F8FA;
+}
+
+.boldText {
+  font-weight: bold;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+}
+
+.item1 {
+  grid-row-start: 1;
+  grid-row-end: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 50px;
+    width: 50px;
+  }
+}
+
+.item2 {
+  font-weight: bold
+}
+
+.searchButton {
+  background-color: initial;
+  border: none;
+  color: #63A0D2;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
 }

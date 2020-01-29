@@ -49,7 +49,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
             {
                 loading ? 'Loading Data...' :
                     showStats &&
-                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search">
+                    <form method="post" action="https://rbdev.rentalbeast.com/mred_sso/bp_search" className={styles.form}>
                         <fieldset>
                             <input type="hidden" name="state" value={settings.state}/>
                             <input type="hidden" name="city" value={settings.city}/>
@@ -61,12 +61,22 @@ export function RBSearchWidget(props: IRBSearchWidget) {
                             <input type="hidden" name="min_bedrooms" value={settings.min_bedrooms}/>
                             <input type="hidden" name="min_bathrooms" value={settings.min_bathrooms}/>
                             <input type="hidden" name="statuses" value="Active"/>
-                            <button type="submit">
-                                {/*<img src="src/assets/rb_logo.png" />*/}
-                                {listings} Listings<br/>
-                                {formatter.format(commissions)} Commissions<br/>
-                                Search Rental Beast >
-                            </button>
+                            <div className={styles.gridContainer} type="submit">
+                                <div className={styles.item1}>
+                                    <img src="https://cdn.rentalbeast.com/default/rb-logo.png" />
+                                </div>
+                                <div>
+                                    <span className={styles.boldText}>{listings} </span>
+                                     Listings<br/>
+                                </div>
+                                <div className="item3">
+                                    <span className={styles.boldText}>{formatter.format(commissions)} </span>
+                                     Commissions<br/>
+                                </div>
+                                <div>
+                                    <input type="submit" value="SEARCH RENTAL BEAST >" className={styles.searchButton}/>
+                                </div>
+                            </div>
                         </fieldset>
                     </form>
             }
