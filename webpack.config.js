@@ -6,25 +6,19 @@ module.exports = {
         path: path.resolve(__dirname, './dist'),
         filename: 'index_bundle.js'
     },
-    mode: "none",
     module: {
         rules: [
             {
                 test: /\.scss|.css$/,
-                loaders: [
+                use: [
                     {
-                        loader: require.resolve('style-loader'),
-                        options: {
-                            sourceMap: true
-                        }
+                        loader: require.resolve('style-loader')
                     },
                     {
                         loader: require.resolve('css-loader'),
                         options: {
                             importLoaders: 1,
-                            modules: true,
-                            localIdentName: '[local]',
-                            sourceMap: true
+                            modules: true
                         },
                     },
                     require.resolve('resolve-url-loader'),
@@ -40,10 +34,9 @@ module.exports = {
                 test: /\.(ts|tsx)$/,
                 use: [
                     {
-                        loader: 'awesome-typescript-loader'
-                    }, 'source-map-loader'
+                        loader: require.resolve('ts-loader')
+                    }
                 ],
-                enforce: "pre",
                 exclude: /node_modules/,
             },
             {
@@ -65,6 +58,5 @@ module.exports = {
         alias: {
             "~": path.resolve(__dirname, 'node_modules/')
         }
-    },
-    devtool: "source-map"
-}
+    }
+};
