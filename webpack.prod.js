@@ -3,4 +3,8 @@
 
  module.exports = merge(common, {
    mode: 'production',
+     externals: {
+         'react': 'React',
+         'react-dom': 'ReactDOM'
+     }
  });
