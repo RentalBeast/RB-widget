@@ -14,7 +14,20 @@ export function RBSearchWidget(props: IRBSearchWidget) {
     const [commissions, setCommissions] = useState();
     const [showStats, setShowStats] = useState(false);
     const [loading, setLoading] = useState();
+    const [hover, setHover] = useState(false);
     let target;
+
+    var linkStyle = () => {
+        if (hover) {
+            return styles.searchButtonOnHover
+        } else {
+            return styles.searchButton
+        }
+    };
+
+    const toggleHover = () => {
+        setHover(!hover)
+    };
 
     const listingStats = async(filters: IRBSearchWidget["settings"]) => {
         var url = 'https://rbdev.be.rentalbeast.com/v1/listing_stats.json';
@@ -79,7 +92,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
                                      Commissions<br/>
                                 </div>
                                 <div>
-                                    <input type="submit" value="SEARCH RENTAL BEAST >" className={styles.searchButton}/>
+                                    <input type="submit" value="SEARCH RENTAL BEAST >" className={linkStyle()} onMouseEnter={toggleHover} onMouseLeave={toggleHover}/>
                                 </div>
                             </div>
                         </fieldset>
