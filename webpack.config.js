@@ -1,10 +1,10 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const version = process.argv[5] || "default";
 module.exports = {
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: 'index_bundle.js'
+        filename: `rb_widget.${version}.js`
     },
     module: {
         rules: [
@@ -48,11 +48,6 @@ module.exports = {
     devServer: {
         port: 9000
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './client/public/index.html'
-        })
-    ],
     resolve: {
         extensions: ['.js', '.ts', '.jsx', '.tsx', '.scss', '.css', '.d.ts', 'eot', 'woff', 'svg', 'gif'],
         alias: {
