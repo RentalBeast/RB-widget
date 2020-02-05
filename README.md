@@ -4,6 +4,9 @@ RB Search Info customizable embeddable widget
 # Usage
 Minimum React verion to be used to embed this widget is 16.0.8
 
+# Jenkins Build
+Use `yarn build --label v1.x.x` where v1.x.x is the repo label latest version. 
+
 # Steps to Embed RB Widget
 1. Add this tag in the place you want your widget <div id="rb-app-container"></div>
 2. Add these following lines before your body tag closes
