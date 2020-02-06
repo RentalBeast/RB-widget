@@ -14,7 +14,7 @@ Use `yarn build --label v1.x.x` where v1.x.x is the repo label latest version.
 ```
 <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<script type="text/javascript" src="https://cdn.rentalbeast.com/front_end/rb_widget.js"></script>
+<script type="text/javascript" src="https://cdn.rentalbeast.com/components/rb_widget.v1.0.0.10.js"></script>
 ```
 
 3. Add an event listener along with search filters. for example
