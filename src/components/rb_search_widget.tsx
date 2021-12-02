@@ -2,16 +2,9 @@ import React, {useState} from "react";
 import axios from "axios";
 import styles from "./rb_search_widget.module.scss";
 
-const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0
-});
-
 export function RBSearchWidget(props: IRBSearchWidget) {
     const {settings, newTab} = props;
     const [listings, setListings] = useState();
-    const [commissions, setCommissions] = useState();
     const [showStats, setShowStats] = useState(false);
     const [loading, setLoading] = useState();
     const [hover, setHover] = useState(false);
@@ -47,9 +40,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
         setLoading(true);
         const response = await listingStats(settings);
         let listings = response.total_count;
-        const commissions = response.total_commission;
         setListings(listings);
-        setCommissions(commissions);
         setShowStats(true);
     };
 
@@ -61,7 +52,7 @@ export function RBSearchWidget(props: IRBSearchWidget) {
         <div className={styles.mainSettings}>
             <button onClick={(e) => {
                 e.preventDefault();
-                getShowStats();
+                getShowStats().then(r => r);
             }}>Search
             </button>
             {
@@ -86,10 +77,6 @@ export function RBSearchWidget(props: IRBSearchWidget) {
                                 <div>
                                     <span className={styles.boldText}>{listings} </span>
                                      Listings<br/>
-                                </div>
-                                <div>
-                                    <span className={styles.boldText}>{formatter.format((commissions.toFixed()))} </span>
-                                     Commissions<br/>
                                 </div>
                                 <div>
                                     <input type="submit" value="SEARCH RENTAL BEAST >" className={linkStyle()} onMouseEnter={toggleHover} onMouseLeave={toggleHover}/>
